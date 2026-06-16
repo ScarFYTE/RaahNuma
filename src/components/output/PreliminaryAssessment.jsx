@@ -3,9 +3,11 @@ import SourceLink from '../shared/SourceLink'
 import { formatMatchStrength } from '../../utils/formatters'
 
 const MATCH_STYLES = {
-  strong: 'bg-emerald-100 text-emerald-700',
-  possible: 'bg-amber-100 text-amber-700',
+  High: 'bg-emerald-100 text-emerald-700',
+  Medium: 'bg-amber-100 text-amber-700',
 }
+
+const getMatchStyle = (level) => MATCH_STYLES[level] || 'bg-amber-100 text-amber-700'
 
 const PreliminaryAssessment = ({ title, items, source }) => {
   return (
@@ -17,18 +19,28 @@ const PreliminaryAssessment = ({ title, items, source }) => {
 
       <ul className="space-y-3">
         {items.map((item) => (
-          <li key={item.program_name} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
+          <li key={item.programName} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
             <div className="flex flex-wrap items-center gap-2">
-              <p className="font-semibold text-slate-900">{item.program_name}</p>
+              <p className="font-semibold text-slate-900">{item.programName}</p>
               <span
                 className={`rounded-full px-2 py-1 text-xs font-semibold ${
-                  MATCH_STYLES[item.match_strength] || MATCH_STYLES.possible
+                  getMatchStyle(item.matchLevel)
                 }`}
               >
-                {formatMatchStrength(item.match_strength)}
+                {formatMatchStrength(item.matchLevel)}
               </span>
             </div>
-            <p className="mt-1 text-sm text-slate-600">{item.reason}</p>
+            <p className="mt-1 text-sm text-slate-600">{item.matchReason}</p>
+              {item.officialLink && (
+                <a
+                  href={item.officialLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-block text-xs text-teal-600 hover:underline"
+                >
+                  Official Link →
+                </a>
+              )}
           </li>
         ))}
       </ul>

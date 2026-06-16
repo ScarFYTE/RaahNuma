@@ -18,7 +18,7 @@ const OutputContainer = ({ sectionTitle, result, cardSources }) => {
       <motion.div {...animationProps} transition={{ duration: 0.3, delay: 0.05 }}>
         <PreliminaryAssessment
           title={cardSources.preliminary.title}
-          items={result.preliminary_assessment}
+          items={result.preliminaryAssessment}
           source={cardSources.preliminary.source}
         />
       </motion.div>
@@ -26,16 +26,16 @@ const OutputContainer = ({ sectionTitle, result, cardSources }) => {
       <motion.div {...animationProps} transition={{ duration: 0.3, delay: 0.15 }}>
         <JargonBuster
           title={cardSources.jargon.title}
-          items={result.jargon_busters}
+          items={result.jargonBuster}
           source={cardSources.jargon.source}
         />
       </motion.div>
 
       <motion.div {...animationProps} transition={{ duration: 0.3, delay: 0.25 }}>
         <DocumentChecklist
-          key={result.document_checklist.join('|')}
+          key={result.documentChecklist.map(d => d.documentName).join('|')}
           title={cardSources.documents.title}
-          items={result.document_checklist}
+          items={result.documentChecklist}
           source={cardSources.documents.source}
         />
       </motion.div>

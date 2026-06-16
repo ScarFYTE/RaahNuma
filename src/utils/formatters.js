@@ -1,14 +1,11 @@
 export const formatMatchStrength = (strength) => {
-  if (strength === 'strong') {
+  if (strength === 'High') {
     return 'Strong Match'
   }
 
-  return 'Possible Match'
-}
+  if (strength === 'Medium') {
+    return 'Possible Match'
+  }
 
-export const buildSourceByAuthority = (sources) => {
-  return sources.reduce((accumulator, source) => {
-    accumulator[source.label] = source.url
-    return accumulator
-  }, {})
+  return 'Possible Match'
 }

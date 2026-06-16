@@ -16,7 +16,8 @@ export const useScholarshipQuery = () => {
       return response
     } catch (queryError) {
       const message =
-        queryError?.message?.includes('Not yet implemented')
+        queryError?.message?.includes('Not yet implemented') ||
+        queryError?.message?.includes('VITE_CLAUDE_API_KEY')
           ? `AI provider not configured. Set VITE_AI_PROVIDER=mock in your .env to use the demo mode.`
           : 'We could not process your request. Please try again.'
       setError(message)

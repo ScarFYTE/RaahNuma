@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { QueryProvider } from './context/QueryContext'
+import { QueryProvider } from './context/QueryContext.jsx'
 import Home from './pages/Home'
 
 const App = () => {

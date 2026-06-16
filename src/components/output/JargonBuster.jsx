@@ -13,7 +13,7 @@ const JargonBuster = ({ title, items, source }) => {
         {items.map((item) => (
           <div key={item.term} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
             <dt className="font-semibold text-slate-900">{item.term}</dt>
-            <dd className="mt-1 text-sm text-slate-600">{item.plain_explanation}</dd>
+            <dd className="mt-1 text-sm text-slate-600">{item.plainEnglishExplanation}</dd>
           </div>
         ))}
       </dl>

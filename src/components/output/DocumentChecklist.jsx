@@ -5,10 +5,10 @@ import SourceLink from '../shared/SourceLink'
 const DocumentChecklist = ({ title, items, source }) => {
   const [checkedItems, setCheckedItems] = useState({})
 
-  const toggleItem = (item) => {
+  const toggleItem = (itemName) => {
     setCheckedItems((previous) => ({
       ...previous,
-      [item]: !previous[item],
+      [itemName]: !previous[itemName],
     }))
   }
 
@@ -22,22 +22,23 @@ const DocumentChecklist = ({ title, items, source }) => {
       <ul className="space-y-2">
         {items.map((item, index) => {
           const inputId = `document-item-${index}`
+          const documentName = typeof item === 'string' ? item : item.documentName
 
           return (
             <li
-            key={item}
-            className="flex items-start gap-3 rounded-lg border border-slate-100 bg-slate-50 p-3"
+              key={documentName}
+              className="flex items-start gap-3 rounded-lg border border-slate-100 bg-slate-50 p-3"
             >
-            <input
-              id={inputId}
-              type="checkbox"
-              checked={Boolean(checkedItems[item])}
-              onChange={() => toggleItem(item)}
-              className="mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
-            />
-            <label htmlFor={inputId} className="text-sm text-slate-700">
-              {item}
-            </label>
+              <input
+                id={inputId}
+                type="checkbox"
+                checked={Boolean(checkedItems[documentName])}
+                onChange={() => toggleItem(documentName)}
+                className="mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+              />
+              <label htmlFor={inputId} className="text-sm text-slate-700">
+                {documentName}
+              </label>
             </li>
           )
         })}

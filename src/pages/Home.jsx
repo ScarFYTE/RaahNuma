@@ -6,7 +6,6 @@ import DisclaimerBanner from '../components/shared/DisclaimerBanner'
 import OutputContainer from '../components/output/OutputContainer'
 import { useQueryContext } from '../context/queryContext'
 import { HOME_SUPPORT_NOTICE, RESPONSIBLE_AI_NOTICE } from '../constants/disclaimers'
-import { buildSourceByAuthority } from '../utils/formatters'
 
 const PAGE_CONTENT = {
   header: {
@@ -59,29 +58,10 @@ const PAGE_CONTENT = {
 
 const Home = () => {
   const { isLoading, result, error, submitQuery } = useQueryContext()
-  const sourceMap = result?.sources ? buildSourceByAuthority(result.sources) : {}
   const cardSources = {
-    preliminary: {
-      ...PAGE_CONTENT.output.cards.preliminary,
-      source: {
-        ...PAGE_CONTENT.output.cards.preliminary.source,
-        url: sourceMap['HEC Official Portal'] || PAGE_CONTENT.output.cards.preliminary.source.url,
-      },
-    },
-    jargon: {
-      ...PAGE_CONTENT.output.cards.jargon,
-      source: {
-        ...PAGE_CONTENT.output.cards.jargon.source,
-        url: sourceMap['PEEF Official Portal'] || PAGE_CONTENT.output.cards.jargon.source.url,
-      },
-    },
-    documents: {
-      ...PAGE_CONTENT.output.cards.documents,
-      source: {
-        ...PAGE_CONTENT.output.cards.documents.source,
-        url: sourceMap['HEC Official Portal'] || PAGE_CONTENT.output.cards.documents.source.url,
-      },
-    },
+    preliminary: PAGE_CONTENT.output.cards.preliminary,
+    jargon: PAGE_CONTENT.output.cards.jargon,
+    documents: PAGE_CONTENT.output.cards.documents,
   }
 
   return (
