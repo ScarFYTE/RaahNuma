@@ -23,6 +23,7 @@ const DocumentChecklist = ({ title, items, source }) => {
         {items.map((item, index) => {
           const inputId = `document-item-${index}`
           const documentName = typeof item === 'string' ? item : item.documentName
+          const reason = typeof item === 'string' ? '' : item.reason
 
           return (
             <li
@@ -36,8 +37,11 @@ const DocumentChecklist = ({ title, items, source }) => {
                 onChange={() => toggleItem(documentName)}
                 className="mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
               />
-              <label htmlFor={inputId} className="text-sm text-slate-700">
-                {documentName}
+              <label htmlFor={inputId} className="min-w-0 flex-1 cursor-pointer">
+                <span className="text-sm font-medium text-slate-800">{documentName}</span>
+                {reason ? (
+                  <span className="mt-1 block text-sm text-slate-600">{reason}</span>
+                ) : null}
               </label>
             </li>
           )

@@ -5,7 +5,7 @@ const SourceLink = ({ href, label, text }) => {
     <a
       href={href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       className="inline-flex items-center gap-1 text-sm font-semibold text-teal-700 transition hover:text-teal-600"
     >
       <span>{text}</span>

@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react'
 
+const MAX_QUERY_LENGTH = 2000
+
 const SituationInput = ({ title, subtitle, placeholder, buttonText, helperText, onSubmit, isLoading }) => {
   const [value, setValue] = useState('')
   const textareaRef = useRef(null)
@@ -18,7 +20,7 @@ const SituationInput = ({ title, subtitle, placeholder, buttonText, helperText, 
   }
 
   const handleChange = (event) => {
-    const nextValue = event.target.value
+    const nextValue = event.target.value.slice(0, MAX_QUERY_LENGTH)
     setValue(nextValue)
     resizeTextarea(event.target)
   }
@@ -49,18 +51,24 @@ const SituationInput = ({ title, subtitle, placeholder, buttonText, helperText, 
           rows={3}
           value={value}
           onChange={handleChange}
+          maxLength={MAX_QUERY_LENGTH}
           placeholder={placeholder}
           className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 shadow-inner outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
         />
         <div className="mt-4 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || !value.trim()}
             className="w-full rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-500 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
           >
             {buttonText}
           </button>
-          <p className="text-sm text-slate-500">{helperText}</p>
+          <p className="text-sm text-slate-500">
+            {helperText}
+            <span className="mt-1 block text-xs text-slate-400">
+              {value.length}/{MAX_QUERY_LENGTH} characters
+            </span>
+          </p>
         </div>
       </form>
     </section>
