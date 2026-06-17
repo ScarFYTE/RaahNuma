@@ -1,7 +1,6 @@
 import Footer from '../components/layout/Footer'
 import Header from '../components/layout/Header'
 import SituationInput from '../components/input/SituationInput'
-import LoadingSpinner from '../components/shared/LoadingSpinner'
 import DisclaimerBanner from '../components/shared/DisclaimerBanner'
 import OutputContainer from '../components/output/OutputContainer'
 import { useQueryContext } from '../context/queryContext'
@@ -71,16 +70,15 @@ const Home = () => {
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-4 py-6 sm:px-6 sm:py-8">
         <SituationInput {...PAGE_CONTENT.hero} onSubmit={submitQuery} isLoading={isLoading} />
 
-        {isLoading ? <LoadingSpinner label={PAGE_CONTENT.loadingLabel} /> : null}
-
         {error ? (
           <p className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">{error}</p>
         ) : null}
 
-        {result ? (
+        {isLoading || result ? (
           <OutputContainer
             sectionTitle={PAGE_CONTENT.output.title}
-            result={result}
+            results={result}
+            isLoading={isLoading}
             cardSources={cardSources}
           />
         ) : null}

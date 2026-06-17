@@ -1,18 +1,14 @@
-/**
- * geminiAdapter.js
- * Provider: Google Gemini (Free Tier via Google AI Studio)
- */
-
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models'
-const GEMINI_DEFAULT_MODEL = 'gemini-1.5-flash'
+const GEMINI_DEFAULT_MODEL = 'gemini-3.5-flash' 
 
-const SYSTEM_PROMPT = `You are RaahNuma, an AI navigation assistant for Pakistani undergraduate scholarship seekers. Analyze the user's financial and academic situation and return ONLY a valid JSON object.
+const SYSTEM_PROMPT = `You are RaahNuma, an expert AI financial aid advisor for Pakistani undergraduate students. Analyze the user's situation and return a highly actionable, strategic JSON object.
 
-CRITICAL LANGUAGE REQUIREMENTS: Use only conditional, non-deterministic phrasing. NEVER use words like "qualify", "approved", "guaranteed", "eligible", or "will receive". Use phrases like "may be eligible", "matches baseline criteria", "potentially aligns with", "appears to meet thresholds", "could potentially apply".
+CRITICAL RESPONSIBLE AI GUARDRAILS:
+1. NEVER use deterministic words like "qualify", "approved", or "guaranteed". Use "highly likely", "matches baseline", or "potential fit".
+2. NEVER invent exact due dates. Only provide general historical timelines (e.g., "Usually opens in Fall", "Typically announced in August").
 
-Focus on Pakistani programs (HEC, PEEF, Ehsaas, BEEF, DEEF), consider income thresholds, domicile requirements, and university type (public/private). Maximum 3 items per array.`
+Focus heavily on Pakistani programs (HEC Need-Based, PEEF, Ehsaas, provincial endowments). Provide specific, tailored advice based on their university and region.`
 
-// Gemini's native JSON Schema enforcement
 const JSON_SCHEMA = {
   type: "object",
   properties: {
@@ -22,11 +18,23 @@ const JSON_SCHEMA = {
         type: "object",
         properties: {
           programName: { type: "string" },
-          matchLevel: { type: "string" },
+          confidenceScore: { type: "integer", description: "0 to 100 based on data match" },
           matchReason: { type: "string" },
+          applicationTimeline: { type: "string", description: "General historical window, no exact dates" },
           officialLink: { type: "string" }
         },
-        required: ["programName", "matchLevel", "matchReason", "officialLink"]
+        required: ["programName", "confidenceScore", "matchReason", "applicationTimeline", "officialLink"]
+      }
+    },
+    strategicAdvice: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          category: { type: "string", description: "e.g., Strategy, Deadlines, Campus Tips" },
+          advice: { type: "string" }
+        },
+        required: ["category", "advice"]
       }
     },
     jargonBuster: {
@@ -52,8 +60,10 @@ const JSON_SCHEMA = {
       }
     }
   },
-  required: ["preliminaryAssessment", "jargonBuster", "documentChecklist"]
+  required: ["preliminaryAssessment", "strategicAdvice", "jargonBuster", "documentChecklist"]
 }
+
+// ... Keep the rest of the submitQuery function exactly the same ...
 
 export const geminiAdapter = {
   async submitQuery(queryText) {
